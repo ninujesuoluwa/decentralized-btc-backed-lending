@@ -279,3 +279,26 @@
 (define-read-only (get-loan-details (loan-id uint))
     (map-get? loans {loan-id: loan-id})
 )
+
+(define-read-only (get-user-loans (user principal))
+    (map-get? user-loans {user: user})
+)
+
+(define-read-only (get-platform-stats)
+    {
+        total-btc-locked: (var-get total-btc-locked),
+        total-loans-issued: (var-get total-loans-issued),
+        minimum-collateral-ratio: (var-get minimum-collateral-ratio),
+        liquidation-threshold: (var-get liquidation-threshold)
+    }
+)
+
+;; Add new read-only function to get valid assets
+(define-read-only (get-valid-assets)
+    VALID-ASSETS
+)
+
+;; Helper function to filter out the repaid loan
+(define-private (not-equal-loan-id (id uint))
+    (not (is-eq id id))
+)
